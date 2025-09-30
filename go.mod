@@ -31,15 +31,14 @@ require (
 	go.opentelemetry.io/contrib/exporters/autoexport v0.46.1
 	go.opentelemetry.io/otel/sdk v1.21.0
 	golang.org/x/crypto v0.35.0
-	golang.org/x/oauth2 v0.11.0
+	golang.org/x/oauth2 v0.27.0
 	google.golang.org/api v0.126.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
 	cloud.google.com/go v0.110.7 // indirect
-	cloud.google.com/go/compute v1.23.0 // indirect
-	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/iam v1.1.1 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.3.0 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.0.0 // indirect

@@ -36,7 +36,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-require github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+require github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 
 require (
 	cloud.google.com/go v0.110.7 // indirect

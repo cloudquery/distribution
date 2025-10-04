@@ -12,7 +12,7 @@ require (
 	github.com/bshuster-repo/logrus-logstash-hook v1.0.0
 	github.com/coreos/go-systemd/v22 v22.5.0
 	github.com/distribution/reference v0.5.0
-	github.com/docker/go-events v0.0.0-20190806004212-e31b211e4f1c
+	github.com/docker/go-events v0.0.0-20250808211157-605354379745
 	github.com/docker/go-metrics v0.0.1
 	github.com/go-jose/go-jose/v3 v3.0.4
 	github.com/google/uuid v1.6.0

@@ -11,7 +11,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.6.3
 	github.com/aws/aws-sdk-go v1.55.8
-	github.com/bshuster-repo/logrus-logstash-hook v1.0.0
+	github.com/bshuster-repo/logrus-logstash-hook v1.1.0
 	github.com/coreos/go-systemd/v22 v22.6.0
 	github.com/distribution/reference v0.5.0
 	github.com/docker/go-events v0.0.0-20250808211157-605354379745

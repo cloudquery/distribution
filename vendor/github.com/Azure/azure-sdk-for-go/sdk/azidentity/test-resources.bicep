@@ -128,7 +128,7 @@ resource farm 'Microsoft.Web/serverfarms@2021-03-01' = if (deployResources) {
   }
 }
 
-resource azfunc 'Microsoft.Web/sites@2021-03-01' = if (deployResources) {
+resource azfunc 'Microsoft.Web/sites@2025-03-01' = if (deployResources) {
   identity: {
     type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {

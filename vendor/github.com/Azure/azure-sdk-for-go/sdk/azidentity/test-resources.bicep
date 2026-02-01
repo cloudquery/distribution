@@ -48,7 +48,7 @@ resource saUserAssigned 'Microsoft.Storage/storageAccounts@2021-08-01' = if (dep
   }
 }
 
-resource usermgdid 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = if (deployResources) {
+resource usermgdid 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = if (deployResources) {
   location: location
   name: baseName
 }

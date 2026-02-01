@@ -40,9 +40,9 @@ http_archive(
 # protobuf
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "8242327e5df8c80ba49e4165250b8f79a76bd11765facefaaecfca7747dc8da2",
-    strip_prefix = "protobuf-3.21.5",
-    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.21.5.zip"],
+    sha256 = "9524d2b04ecc2daf295dc3b09ad9ea84a6cee219d7c3ce02462e774106492b7a",
+    strip_prefix = "protobuf-3.29.5",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.29.5.zip"],
 )
 
 # googletest

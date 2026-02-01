@@ -114,7 +114,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-01-01-pr
   }
 }
 
-resource farm 'Microsoft.Web/serverfarms@2021-03-01' = if (deployResources) {
+resource farm 'Microsoft.Web/serverfarms@2025-03-01' = if (deployResources) {
   kind: 'app'
   location: location
   name: '${baseName}_asp'

@@ -103,7 +103,7 @@ resource blobRoleVM 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (d
   }
 }
 
-resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = if (deployResources) {
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2025-11-01' = if (deployResources) {
   location: location
   name: uniqueString(resourceGroup().id)
   properties: {

@@ -1,8 +1,6 @@
 module github.com/distribution/distribution/v3
 
-go 1.24.0
-
-toolchain go1.24.10
+go 1.25.0
 
 require (
 	cloud.google.com/go/storage v1.57.1
@@ -33,7 +31,7 @@ require (
 	go.opentelemetry.io/contrib/exporters/autoexport v0.46.1
 	go.opentelemetry.io/otel/sdk v1.36.0
 	golang.org/x/crypto v0.45.0
-	golang.org/x/oauth2 v0.30.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.247.0
 	gopkg.in/yaml.v2 v2.4.0
 )

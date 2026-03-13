@@ -1,25 +1,18 @@
 // Copyright The OpenTelemetry Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// SPDX-License-Identifier: Apache-2.0
 
 package stdouttrace // import "go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
 
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"sync"
 	"time"
 
+	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace/internal/counter"
+	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace/internal/observ"
 	"go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/sdk/trace/tracetest"
 )
@@ -30,20 +23,21 @@ var _ trace.SpanExporter = &Exporter{}
 
 // New creates an Exporter with the passed options.
 func New(options ...Option) (*Exporter, error) {
-	cfg, err := newConfig(options...)
-	if err != nil {
-		return nil, err
-	}
+	cfg := newConfig(options...)
 
 	enc := json.NewEncoder(cfg.Writer)
 	if cfg.PrettyPrint {
 		enc.SetIndent("", "\t")
 	}
 
-	return &Exporter{
+	exporter := &Exporter{
 		encoder:    enc,
 		timestamps: cfg.Timestamps,
-	}, nil
+	}
+
+	var err error
+	exporter.inst, err = observ.NewInstrumentation(counter.NextExporterID())
+	return exporter, err
 }
 
 // Exporter is an implementation of trace.SpanSyncer that writes spans to stdout.
@@ -54,10 +48,21 @@ type Exporter struct {
 
 	stoppedMu sync.RWMutex
 	stopped   bool
+
+	inst *observ.Instrumentation
 }
 
 // ExportSpans writes spans in json format to stdout.
-func (e *Exporter) ExportSpans(ctx context.Context, spans []trace.ReadOnlySpan) error {
+func (e *Exporter) ExportSpans(ctx context.Context, spans []trace.ReadOnlySpan) (err error) {
+	var success int64
+	if e.inst != nil {
+		op := e.inst.ExportSpans(ctx, len(spans))
+		defer func() { op.End(success, err) }()
+	}
+
+	if err := ctx.Err(); err != nil {
+		return err
+	}
 	e.stoppedMu.RLock()
 	stopped := e.stopped
 	e.stoppedMu.RUnlock()
@@ -86,29 +91,26 @@ func (e *Exporter) ExportSpans(ctx context.Context, spans []trace.ReadOnlySpan) 
 		}
 
 		// Encode span stubs, one by one
-		if err := e.encoder.Encode(stub); err != nil {
-			return err
+		if e := e.encoder.Encode(stub); e != nil {
+			err = errors.Join(err, fmt.Errorf("failed to encode span %d: %w", i, e))
+			continue
 		}
+		success++
 	}
-	return nil
+	return err
 }
 
 // Shutdown is called to stop the exporter, it performs no action.
-func (e *Exporter) Shutdown(ctx context.Context) error {
+func (e *Exporter) Shutdown(context.Context) error {
 	e.stoppedMu.Lock()
 	e.stopped = true
 	e.stoppedMu.Unlock()
 
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	default:
-	}
 	return nil
 }
 
-// MarshalLog is the marshaling function used by the logging system to represent this exporter.
-func (e *Exporter) MarshalLog() interface{} {
+// MarshalLog is the marshaling function used by the logging system to represent this Exporter.
+func (e *Exporter) MarshalLog() any {
 	return struct {
 		Type           string
 		WithTimestamps bool

@@ -17,16 +17,16 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
 
       -
         name: Build image
-        uses: docker/bake-action@v6
+        uses: docker/bake-action@5be5f02ff8819ecd3092ea6b2e6261c31774f2b4 # v6
       -
         name: Start distribution server
         run: |
@@ -37,7 +37,7 @@ jobs:
           docker run --rm -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true -idt "registry:local"
       -
         name: Run OCI Distribution Spec conformance tests
-        uses: opencontainers/distribution-spec@v1.1.1
+        uses: opencontainers/distribution-spec@a139cc423184af6078077b9b7ee336eddbd03f8f # v1.1.1
         env:
           OCI_ROOT_URL: ${{ env.OCI_ROOT_URL }}
           OCI_NAMESPACE: oci-conformance/distribution-test
@@ -51,7 +51,7 @@ jobs:
         run: mkdir -p .out/ && mv {report.html,junit.xml} .out/
       -
         name: Upload test results
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: oci-test-results-${{ github.sha }}
           path: .out/

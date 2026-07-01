@@ -44,7 +44,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_java",
-    version = "7.6.5",
+    version = "7.12.5",
 )
 bazel_dep(
     name = "rules_proto",

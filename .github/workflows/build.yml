@@ -112,7 +112,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build artifacts
-        uses: docker/bake-action@v4
+        uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7
         with:
           targets: artifact-all
       -
@@ -140,7 +140,7 @@ jobs:
           if-no-files-found: error
       -
         name: Build image
-        uses: docker/bake-action@v4
+        uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7
         with:
           files: |
             ./docker-bake.hcl
